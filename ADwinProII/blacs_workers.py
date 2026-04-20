@@ -154,6 +154,8 @@ class ADwinProIIWorker(Worker):
                 self.adw.SetData_Long(AOUT["channel"], 2, 1, AOUT.shape[0])
                 self.adw.SetData_Long(AOUT["value"], 3, 1, AOUT.shape[0])
             for name,module in self.DIO_ADwin_DataNo:
+                if module == 50: # TODO: Fix in Adbasic
+                    module = 20
                 DOUT = group[f"DIGITAL_OUT/{name}"]
                 if fresh or not np.array_equal(DOUT[:],self.smart_cache[name]):
                     print(f"{name} programmed.")
@@ -228,6 +230,8 @@ class ADwinProIIWorker(Worker):
         self.h5file = None
         # Check if the TiCo processes were running correctly
         for name,num in self.DIO_ADwin_DataNo:
+            if num == 50: # TODO: Fix in Adbasic
+                num = 20
             if not self.adw.Get_Par(num)==1:
                 raise LabscriptError(f"TiCo process of module {name} was not running before at end main process.")
         # Stop buffered and start manual process in ADwin
@@ -288,6 +292,10 @@ class ADwinProIIWorker(Worker):
             self.adw.Start_Process(self.process_number_manual)
             time.sleep(0.01) # wait some time such that the first AIN values are already measured
         for module_address,inputs in AIN_values.items():
+            if module_address == 2: # TODO: Fix in Adbasic
+                module_address = 3
+            elif module_address == 6:
+                module_address = 4
             values = self.adw.GetData_Long(90+int(module_address), 1, len(inputs))
             values = DAC(np.ctypeslib.as_array(values))
             for port in inputs:

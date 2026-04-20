@@ -34,10 +34,10 @@ TiCo_start_in_T12_cycles = 20
 # of the modules has which index in the array, we explicitly define
 # where we have the start indices (ZERO INDEXED FOR PYTHON!).
 module_start_index = {
-    3:0, # AI8 1
-    4:8, # AI8 2
-    5:0, # AOUT8 1
-    6:8, # AOUT8 2
+    2:0, # AI8 1
+    6:8, # AI8 2
+    3:0, # AOUT8 1
+    4:8, # AOUT8 2
 }
 # BEWARE: In collect_card_instructions the start_index and 
 # module_index of each module type must have to same sorting order!
